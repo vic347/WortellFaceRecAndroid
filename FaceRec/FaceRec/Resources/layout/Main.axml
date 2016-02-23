@@ -6,7 +6,7 @@
     android:minWidth="25px"
     android:minHeight="25px"
     android:id="@+id/linearLayout1">
-    <TextureView
+    <SurfaceView
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:id="@+id/textureView1"

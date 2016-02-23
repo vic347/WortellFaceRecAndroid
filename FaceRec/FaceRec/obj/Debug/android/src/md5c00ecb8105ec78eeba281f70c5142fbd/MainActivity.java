@@ -5,7 +5,11 @@ public class MainActivity
 	extends android.app.Activity
 	implements
 		mono.android.IGCUserPeer,
-		android.view.TextureView.SurfaceTextureListener
+		android.view.TextureView.SurfaceTextureListener,
+		android.hardware.Camera.PictureCallback,
+		android.hardware.Camera.PreviewCallback,
+		android.hardware.Camera.ShutterCallback,
+		android.view.SurfaceHolder.Callback
 {
 	static final String __md_methods;
 	static {
@@ -15,6 +19,12 @@ public class MainActivity
 			"n_onSurfaceTextureDestroyed:(Landroid/graphics/SurfaceTexture;)Z:GetOnSurfaceTextureDestroyed_Landroid_graphics_SurfaceTexture_Handler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"n_onSurfaceTextureSizeChanged:(Landroid/graphics/SurfaceTexture;II)V:GetOnSurfaceTextureSizeChanged_Landroid_graphics_SurfaceTexture_IIHandler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"n_onSurfaceTextureUpdated:(Landroid/graphics/SurfaceTexture;)V:GetOnSurfaceTextureUpdated_Landroid_graphics_SurfaceTexture_Handler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_onPictureTaken:([BLandroid/hardware/Camera;)V:GetOnPictureTaken_arrayBLandroid_hardware_Camera_Handler:Android.Hardware.Camera/IPictureCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_onPreviewFrame:([BLandroid/hardware/Camera;)V:GetOnPreviewFrame_arrayBLandroid_hardware_Camera_Handler:Android.Hardware.Camera/IPreviewCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_onShutter:()V:GetOnShutterHandler:Android.Hardware.Camera/IShutterCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_surfaceChanged:(Landroid/view/SurfaceHolder;III)V:GetSurfaceChanged_Landroid_view_SurfaceHolder_IIIHandler:Android.Views.ISurfaceHolderCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_surfaceCreated:(Landroid/view/SurfaceHolder;)V:GetSurfaceCreated_Landroid_view_SurfaceHolder_Handler:Android.Views.ISurfaceHolderCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
+			"n_surfaceDestroyed:(Landroid/view/SurfaceHolder;)V:GetSurfaceDestroyed_Landroid_view_SurfaceHolder_Handler:Android.Views.ISurfaceHolderCallbackInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"";
 		mono.android.Runtime.register ("FaceRec.MainActivity, FaceRec, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null", MainActivity.class, __md_methods);
 	}
@@ -66,6 +76,54 @@ public class MainActivity
 	}
 
 	private native void n_onSurfaceTextureUpdated (android.graphics.SurfaceTexture p0);
+
+
+	public void onPictureTaken (byte[] p0, android.hardware.Camera p1)
+	{
+		n_onPictureTaken (p0, p1);
+	}
+
+	private native void n_onPictureTaken (byte[] p0, android.hardware.Camera p1);
+
+
+	public void onPreviewFrame (byte[] p0, android.hardware.Camera p1)
+	{
+		n_onPreviewFrame (p0, p1);
+	}
+
+	private native void n_onPreviewFrame (byte[] p0, android.hardware.Camera p1);
+
+
+	public void onShutter ()
+	{
+		n_onShutter ();
+	}
+
+	private native void n_onShutter ();
+
+
+	public void surfaceChanged (android.view.SurfaceHolder p0, int p1, int p2, int p3)
+	{
+		n_surfaceChanged (p0, p1, p2, p3);
+	}
+
+	private native void n_surfaceChanged (android.view.SurfaceHolder p0, int p1, int p2, int p3);
+
+
+	public void surfaceCreated (android.view.SurfaceHolder p0)
+	{
+		n_surfaceCreated (p0);
+	}
+
+	private native void n_surfaceCreated (android.view.SurfaceHolder p0);
+
+
+	public void surfaceDestroyed (android.view.SurfaceHolder p0)
+	{
+		n_surfaceDestroyed (p0);
+	}
+
+	private native void n_surfaceDestroyed (android.view.SurfaceHolder p0);
 
 	java.util.ArrayList refList;
 	public void monodroidAddReference (java.lang.Object obj)

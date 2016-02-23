@@ -13,21 +13,25 @@ using Android.Graphics;
 using Java.Interop;
 using System.Threading.Tasks;
 using System.IO;
+using Java.IO;
 
 
 namespace FaceRec
 {
 	[Activity (Label = "FaceRec", MainLauncher = true, Icon = "@mipmap/icon")]
-	public class MainActivity : Activity, TextureView.ISurfaceTextureListener
+	public class MainActivity : Activity, TextureView.ISurfaceTextureListener , Android.Hardware.Camera.IPictureCallback ,Android.Hardware.Camera.IPreviewCallback, Android.Hardware.Camera.IShutterCallback, ISurfaceHolderCallback
 	{
 		Android.Hardware.Camera _camera;
-		TextureView _texture;
+		SurfaceView _surfaceView;
 		private int cameraId = 0;
 		static int REQUEST_IMAGE_CAPTURE = 1;
 
 		int count = 1;
 
 		Button button;
+
+		Android.Hardware.Camera camera;
+		System.String PICTURE_FILENAME = "picture.jpg";
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -36,21 +40,88 @@ namespace FaceRec
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
-			_texture = FindViewById<TextureView> (Resource.Id.textureView1);
-			_texture.SurfaceTextureListener = this;
+			_surfaceView = FindViewById<SurfaceView> (Resource.Id.textureView1);
 
-			button = (Button)FindViewById (Resource.Id.button1);
+			SurfaceView surface = (SurfaceView)FindViewById (Resource.Id.textureView1);
+			var holder = surface.Holder;
+			holder.AddCallback (this);
+			holder.SetType (Android.Views.SurfaceType.PushBuffers);
+
+			FindViewById(Resource.Id.button1).Click += delegate {
+				Android.Hardware.Camera.Parameters p = camera.GetParameters();
+				p.PictureFormat = Android.Graphics.ImageFormatType.Jpeg;
+				camera.SetParameters(p);
+				camera.TakePicture(this,this,this);
+
+			};
 		
 			// Get our button from the layout resource,
 			// and attach an event to it
 
 		}
 
+		void Android.Hardware.Camera.IPreviewCallback.OnPreviewFrame(byte[] b, Android.Hardware.Camera c)
+		{
+
+		}
+
+		void Android.Hardware.Camera.IShutterCallback.OnShutter()
+		{
+
+		}
+
+		public void SurfaceCreated(ISurfaceHolder holder)
+		{
+			try{
+				camera = Android.Hardware.Camera.Open();
+				Android.Hardware.Camera.Parameters p = camera.GetParameters();
+				p.PictureFormat = Android.Graphics.ImageFormatType.Jpeg;
+				camera.SetParameters(p);
+				camera.SetPreviewCallback(this);
+				camera.Lock();
+				camera.SetPreviewDisplay(holder);
+				camera.StartPreview();
+			}
+			catch(System.IO.IOException e){
+			}
+		}
+
+		public void SurfaceDestroyed(ISurfaceHolder holder){
+
+			camera.Unlock ();
+			camera.StopPreview ();
+			camera.SetPreviewCallback (null);
+			camera.Release ();
+			camera = null;
+		}
+
+		public void SurfaceChanged(ISurfaceHolder holder,Android.Graphics.Format f,int i, int j)
+		{
+			
+		}
+
+		void Android.Hardware.Camera.IPictureCallback.OnPictureTaken(byte[] data, Android.Hardware.Camera camera)
+		{
+			FileOutputStream outStream = null;
+			Java.IO.File dataDir = Android.OS.Environment.ExternalStorageDirectory;
+			if (data != null) {
+				try{
+					outStream = new FileOutputStream(dataDir + "/" + PICTURE_FILENAME);
+					outStream.Write(data);
+					outStream.Close();
+				}catch(System.IO.FileNotFoundException e){
+					System.Console.Out.WriteLine (e.Message);
+				}catch(System.IO.IOException ie){
+					System.Console.Out.WriteLine (ie.Message);
+				}
+			}
+		}
+
 		public void OnSurfaceTextureAvailable (
 			Android.Graphics.SurfaceTexture surface, int w, int h)
 		{	
 			_camera = getCameraInstance ();
-			_texture.LayoutParameters =
+			_surfaceView.LayoutParameters =
 				new RelativeLayout.LayoutParams (w, h);
 
 			try {
@@ -60,7 +131,7 @@ namespace FaceRec
 
 
 			}  catch (Java.IO.IOException ex) {
-				Console.WriteLine (ex.Message);
+				System.Console.WriteLine (ex.Message);
 			}
 		}
 
