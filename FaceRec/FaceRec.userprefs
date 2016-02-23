@@ -1,0 +1,15 @@
+﻿<Properties StartupItem="FaceRec\FaceRec.csproj" RefactoringSettings.EnableRefactorings="True">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Android.015d24a7f9542010" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="FaceRec\MainActivity.cs">
+    <Files>
+      <File FileName="FaceRec\MainActivity.cs" Line="140" Column="5" />
+      <File FileName="FaceRec\Properties\AndroidManifest.xml" Line="1" Column="1" />
+      <File FileName="FaceRec\Resources\values\Strings.xml" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.FaceRec AndroidDeviceId-Debug="015d24a7f9542010" AndroidDesignerPreferredDevice="Nexus 4" />
+</Properties>
