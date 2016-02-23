@@ -19,7 +19,7 @@ using Java.IO;
 namespace FaceRec
 {
 	[Activity (Label = "FaceRec", MainLauncher = true, Icon = "@mipmap/icon")]
-	public class MainActivity : Activity, TextureView.ISurfaceTextureListener , Android.Hardware.Camera.IPictureCallback ,Android.Hardware.Camera.IPreviewCallback, Android.Hardware.Camera.IShutterCallback, ISurfaceHolderCallback
+	public class MainActivity : Activity, Android.Hardware.Camera.IPictureCallback ,Android.Hardware.Camera.IPreviewCallback, Android.Hardware.Camera.IShutterCallback, ISurfaceHolderCallback
 	{
 		Android.Hardware.Camera _camera;
 		SurfaceView _surfaceView;
@@ -97,7 +97,7 @@ namespace FaceRec
 
 		public void SurfaceChanged(ISurfaceHolder holder,Android.Graphics.Format f,int i, int j)
 		{
-			
+			camera.SetDisplayOrientation(90);
 		}
 
 		void Android.Hardware.Camera.IPictureCallback.OnPictureTaken(byte[] data, Android.Hardware.Camera camera)
@@ -117,23 +117,23 @@ namespace FaceRec
 			}
 		}
 
-		public void OnSurfaceTextureAvailable (
-			Android.Graphics.SurfaceTexture surface, int w, int h)
-		{	
-			_camera = getCameraInstance ();
-			_surfaceView.LayoutParameters =
-				new RelativeLayout.LayoutParams (w, h);
+		//public void OnSurfaceTextureAvailable (
+			//Android.Graphics.SurfaceTexture surface, int w, int h)
+		//{	
+			//_camera = getCameraInstance ();
+			//_surfaceView.LayoutParameters =
+				//new RelativeLayout.LayoutParams (w, h);
 
-			try {
-				_camera.SetDisplayOrientation(90);
-				_camera.SetPreviewTexture (surface);
-				_camera.StartPreview ();
+			//try {
+				//_camera.SetDisplayOrientation(45);
+				//_camera.SetPreviewTexture (surface);
+				//_camera.StartPreview ();
 
 
-			}  catch (Java.IO.IOException ex) {
-				System.Console.WriteLine (ex.Message);
-			}
-		}
+			//}  catch (Java.IO.IOException ex) {
+				//System.Console.WriteLine (ex.Message);
+			//}
+		//}
 
 		public static Android.Hardware.Camera getCameraInstance(){
 			Android.Hardware.Camera c = null;
