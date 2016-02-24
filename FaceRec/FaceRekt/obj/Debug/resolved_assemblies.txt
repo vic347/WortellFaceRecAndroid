@@ -1,0 +1,10 @@
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\FaceRekt.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\Mono.Android.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\mscorlib.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\System.Core.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\System.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\System.Xml.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\Xamarin.Android.Support.v4.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\Xamarin.Android.Support.v7.AppCompat.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\System.Runtime.Serialization.dll
+C:\Users\hort\Documents\Projects\FaceRekt\FaceRekt\obj\Debug\assemblies\System.ServiceModel.Internals.dll
