@@ -8,6 +8,16 @@
         android:layout_height="242dp"
         android:id="@+id/textureView"
         android:layout_gravity="center_horizontal" />
+    <Switch
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/floop"
+        android:switchMinWidth="56dp"
+        android:thumb="@drawable/thumb"
+        android:track="@drawable/track"
+        android:checked="true"
+        android:textOn="YES"
+        android:textOff="NO" />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

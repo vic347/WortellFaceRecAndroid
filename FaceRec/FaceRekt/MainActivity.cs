@@ -11,6 +11,7 @@ using Android.Provider;
 using Android.Content.PM;
 using Android.Graphics;
 using System.IO;
+using System.Threading.Tasks;
 
 
 
@@ -21,10 +22,11 @@ namespace FaceRekt
 	{
 		Android.Hardware.Camera _camera;
 		TextureView _texture;
+		Switch _switch;
 		ImageView _image;
-		private Bitmap bmp = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Argb8888);
-		private int cameraId = 0;
-		private int TAKE_PICTURE = 1;
+		Button button;
+
+		int temp = 0;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -32,21 +34,43 @@ namespace FaceRekt
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
+			button = FindViewById<Button> (Resource.Id.button);
+
+
+			_switch = FindViewById<Switch> (Resource.Id.floop);
+
+			_switch.CheckedChange += delegate(object sender, CompoundButton.CheckedChangeEventArgs e) {
+				if(e.IsChecked == true){
+					temp = 1;
+					button.Visibility = ViewStates.Visible;
+				}
+				else{
+					temp = 0;
+					getBitmapObjectLoop();
+					button.Visibility = ViewStates.Invisible;
+				}
+			};
 
 			_texture = FindViewById<TextureView> (Resource.Id.textureView);
 			_texture.SurfaceTextureListener = this;
 
-			Button button = FindViewById<Button> (Resource.Id.button);
-
-			//button.Click += img;
-			//button.Click += saveFullImage;
-
 
 			// Get our button from the layout resource,
-			// and attach an event to it
+			// and attach an event to il
 
 		}
-			
+
+		public async void getBitmapObjectLoop(){
+			while (temp != 1) {
+				await Task.Factory.StartNew (() => {
+					RunOnUiThread(()=>{
+						getBitmapObject();
+					});
+				});
+				await Task.Delay(1000);
+			}
+		}
+
 		public void OnSurfaceTextureAvailable (
 			Android.Graphics.SurfaceTexture surface, int w, int h)
 		{	
@@ -90,13 +114,25 @@ namespace FaceRekt
 		}
 
 
-		public void OnSurfaceTextureUpdated (Android.Graphics.SurfaceTexture surface)
-		{
+		public void OnSurfaceTextureUpdated (Android.Graphics.SurfaceTexture surface){
+
 			_image = FindViewById<ImageView> (Resource.Id.imageView2);
-			_texture.GetBitmap (bmp);
-			_image.SetImageBitmap (bmp);
-		}
+			button.Click += delegate {
+				getBitmapObject();
 			
+			};
+		}
+		private void getBitmapObject(){
+			_image = FindViewById<ImageView> (Resource.Id.imageView2);
+
+				Bitmap bmp = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Argb8888);
+				Bitmap bit = _texture.GetBitmap (bmp);
+				_image.SetImageBitmap(bit);
+			bit.Dispose();
+
+
+		}
+			//062115787
 		private static Android.Hardware.Camera openFrontFacingCamera() 
 		{
 			int cameraCount = 0;
