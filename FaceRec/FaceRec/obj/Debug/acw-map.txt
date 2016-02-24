@@ -1,4 +1,0 @@
-FaceRec.MainActivity, FaceRec;md5c00ecb8105ec78eeba281f70c5142fbd.MainActivity
-FaceRec.MainActivity, FaceRec, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null;md5c00ecb8105ec78eeba281f70c5142fbd.MainActivity
-FaceRec.MainActivity;md5c00ecb8105ec78eeba281f70c5142fbd.MainActivity
-facerec.MainActivity;md5c00ecb8105ec78eeba281f70c5142fbd.MainActivity

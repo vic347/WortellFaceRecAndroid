@@ -10,28 +10,21 @@ using Android.Content;
 using Android.Provider;
 using Android.Content.PM;
 using Android.Graphics;
-using Java.Interop;
-using System.Threading.Tasks;
 using System.IO;
-using Java.IO;
+using System.Threading.Tasks;
 
 
-namespace FaceRec
+
+namespace FaceRekt
 {
-	[Activity (Label = "FaceRec", MainLauncher = true, Icon = "@mipmap/icon")]
-	public class MainActivity : Activity, Android.Hardware.Camera.IPictureCallback ,Android.Hardware.Camera.IPreviewCallback, Android.Hardware.Camera.IShutterCallback, ISurfaceHolderCallback
+	[Activity (Label = "FaceRekt", MainLauncher = true, Icon = "@mipmap/icon")]
+	public class MainActivity : Activity, TextureView.ISurfaceTextureListener
 	{
 		Android.Hardware.Camera _camera;
-		SurfaceView _surfaceView;
+		TextureView _texture;
+		ImageView _image;
 		private int cameraId = 0;
-		static int REQUEST_IMAGE_CAPTURE = 1;
-
-		int count = 1;
-
-		Button button;
-
-		Android.Hardware.Camera camera;
-		System.String PICTURE_FILENAME = "picture.jpg";
+		private int TAKE_PICTURE = 1;
 
 		protected override void OnCreate (Bundle savedInstanceState)
 		{
@@ -40,100 +33,50 @@ namespace FaceRec
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
 
-			_surfaceView = FindViewById<SurfaceView> (Resource.Id.textureView1);
+			_texture = FindViewById<TextureView> (Resource.Id.textureView);
+			_texture.SurfaceTextureListener = this;
 
-			SurfaceView surface = (SurfaceView)FindViewById (Resource.Id.textureView1);
-			var holder = surface.Holder;
-			holder.AddCallback (this);
-			holder.SetType (Android.Views.SurfaceType.PushBuffers);
+			//button.Click += saveFullImage;
 
-			FindViewById(Resource.Id.button1).Click += delegate {
-				Android.Hardware.Camera.Parameters p = camera.GetParameters();
-				p.PictureFormat = Android.Graphics.ImageFormatType.Jpeg;
-				camera.SetParameters(p);
-				camera.TakePicture(this,this,this);
 
-			};
-		
 			// Get our button from the layout resource,
 			// and attach an event to it
 
 		}
 
-		void Android.Hardware.Camera.IPreviewCallback.OnPreviewFrame(byte[] b, Android.Hardware.Camera c)
+		public async Task Delay()
 		{
+			Button button = FindViewById<Button> (Resource.Id.button);
 
+			_image = FindViewById<ImageView> (Resource.Id.imageView2);
+
+			//button.Click += delegate {
+
+			Bitmap bmp = Bitmap.CreateBitmap(100, 100, Bitmap.Config.Argb8888);
+			_texture.GetBitmap (bmp);
+			_image.SetImageBitmap (bmp);
+			bmp.Dispose();
+
+			await Task.Delay(5000);
 		}
 
-		void Android.Hardware.Camera.IShutterCallback.OnShutter()
-		{
+		public void OnSurfaceTextureAvailable (
+			Android.Graphics.SurfaceTexture surface, int w, int h)
+		{	
+			_camera = getCameraInstance ();
+			_texture.LayoutParameters =
+				new LinearLayout.LayoutParams (w, h);
 
-		}
+			try {
+				_camera.SetDisplayOrientation(90);
+				_camera.SetPreviewTexture (surface);
+				_camera.StartPreview ();
 
-		public void SurfaceCreated(ISurfaceHolder holder)
-		{
-			try{
-				camera = Android.Hardware.Camera.Open();
-				Android.Hardware.Camera.Parameters p = camera.GetParameters();
-				p.PictureFormat = Android.Graphics.ImageFormatType.Jpeg;
-				camera.SetParameters(p);
-				camera.SetPreviewCallback(this);
-				camera.Lock();
-				camera.SetPreviewDisplay(holder);
-				camera.StartPreview();
-			}
-			catch(System.IO.IOException e){
-			}
-		}
 
-		public void SurfaceDestroyed(ISurfaceHolder holder){
-
-			camera.Unlock ();
-			camera.StopPreview ();
-			camera.SetPreviewCallback (null);
-			camera.Release ();
-			camera = null;
-		}
-
-		public void SurfaceChanged(ISurfaceHolder holder,Android.Graphics.Format f,int i, int j)
-		{
-			camera.SetDisplayOrientation(90);
-		}
-
-		void Android.Hardware.Camera.IPictureCallback.OnPictureTaken(byte[] data, Android.Hardware.Camera camera)
-		{
-			FileOutputStream outStream = null;
-			Java.IO.File dataDir = Android.OS.Environment.ExternalStorageDirectory;
-			if (data != null) {
-				try{
-					outStream = new FileOutputStream(dataDir + "/" + PICTURE_FILENAME);
-					outStream.Write(data);
-					outStream.Close();
-				}catch(System.IO.FileNotFoundException e){
-					System.Console.Out.WriteLine (e.Message);
-				}catch(System.IO.IOException ie){
-					System.Console.Out.WriteLine (ie.Message);
-				}
+			}  catch (Java.IO.IOException ex) {
+				Console.WriteLine (ex.Message);
 			}
 		}
-
-		//public void OnSurfaceTextureAvailable (
-			//Android.Graphics.SurfaceTexture surface, int w, int h)
-		//{	
-			//_camera = getCameraInstance ();
-			//_surfaceView.LayoutParameters =
-				//new RelativeLayout.LayoutParams (w, h);
-
-			//try {
-				//_camera.SetDisplayOrientation(45);
-				//_camera.SetPreviewTexture (surface);
-				//_camera.StartPreview ();
-
-
-			//}  catch (Java.IO.IOException ex) {
-				//System.Console.WriteLine (ex.Message);
-			//}
-		//}
 
 		public static Android.Hardware.Camera getCameraInstance(){
 			Android.Hardware.Camera c = null;
@@ -159,11 +102,12 @@ namespace FaceRec
 			// camera takes care of this
 		}
 
+
 		public void OnSurfaceTextureUpdated (Android.Graphics.SurfaceTexture surface)
 		{
-
+			
 		}
-
+	
 		private static Android.Hardware.Camera openFrontFacingCamera() 
 		{
 			int cameraCount = 0;
@@ -183,62 +127,8 @@ namespace FaceRec
 
 			return cam;
 		}
-
-		private void dispatchTakePictureIntent() {
-			Intent takePictureIntent = new Intent(MediaStore.ActionImageCapture);
-
-			StartActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-
-		}
-
-		public interface IScreenshotManager
-		{
-			Task<byte[]> CaptureAsync();
-		}
-
-		public class ScreenshotManager : IScreenshotManager
-		{
-			public static Activity Activity { get; set; }
-
-			public async System.Threading.Tasks.Task<byte[]> CaptureAsync()
-			{
-				if(Activity == null)
-				{
-					throw new System.Exception("You have to set ScreenshotManager.Activity in your Android project");
-				}
-
-				var view = Activity.Window.DecorView;
-				view.DrawingCacheEnabled = true;
-
-				Bitmap bitmap = view.GetDrawingCache(true);
-
-				byte[] bitmapData;
-
-				using (var stream = new MemoryStream())
-				{
-					bitmap.Compress(Bitmap.CompressFormat.Png, 0, stream);
-					bitmapData = stream.ToArray();
-				}
-
-				return bitmapData;
-			}
-		}
+			
+	}	
 
 
-
-		/// <summary>
-		/// /////////
-		/// </summary>
-		///     
-		/// 
-
-		//protected virtual void OnActivityResult(int requestCode, int resultCode, Intent data) {
-		//	if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode = Result.Ok) {
-		//		Bundle extras = data.GetStringExtra("data");
-		//		Bitmap imageBitmap = (Bitmap) extras;
-		//		//mImageView.setImageBitmap(imageBitmap);
-		//	}
-		//}
-
-	}
 }

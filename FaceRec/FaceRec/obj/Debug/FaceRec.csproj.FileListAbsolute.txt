@@ -40,7 +40,6 @@ C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\bin\Debug\Face
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\bin\Debug\FaceRec.pdb
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\bin\Debug\FaceRec.FaceRec.apk
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\bin\Debug\FaceRec.FaceRec-Signed.apk
-C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\obj\Debug\FaceRec.csprojResolveAssemblyReference.cache
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\obj\Debug\FaceRec.dll
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\obj\Debug\FaceRec.pdb
 C:\Users\Eigenaar\Documents\WortellFaceRecAndroid\FaceRec\FaceRec\obj\Debug\android\bin\FaceRec.FaceRec.apk

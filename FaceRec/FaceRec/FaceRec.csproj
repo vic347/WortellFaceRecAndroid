@@ -65,4 +65,7 @@
   <ItemGroup>
     <Folder Include="Resources\drawable\" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidEnvironment Include="enviroment.txt" />
+  </ItemGroup>
 </Project>
