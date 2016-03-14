@@ -2,7 +2,7 @@ package md574f471f4609f0df676f63ea3b27d0194;
 
 
 public class MainActivity
-	extends android.app.Activity
+	extends android.support.v7.app.AppCompatActivity
 	implements
 		mono.android.IGCUserPeer,
 		android.view.TextureView.SurfaceTextureListener
@@ -11,6 +11,7 @@ public class MainActivity
 	static {
 		__md_methods = 
 			"n_onCreate:(Landroid/os/Bundle;)V:GetOnCreate_Landroid_os_Bundle_Handler\n" +
+			"n_onOptionsItemSelected:(Landroid/view/MenuItem;)Z:GetOnOptionsItemSelected_Landroid_view_MenuItem_Handler\n" +
 			"n_onSurfaceTextureAvailable:(Landroid/graphics/SurfaceTexture;II)V:GetOnSurfaceTextureAvailable_Landroid_graphics_SurfaceTexture_IIHandler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"n_onSurfaceTextureDestroyed:(Landroid/graphics/SurfaceTexture;)Z:GetOnSurfaceTextureDestroyed_Landroid_graphics_SurfaceTexture_Handler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
 			"n_onSurfaceTextureSizeChanged:(Landroid/graphics/SurfaceTexture;II)V:GetOnSurfaceTextureSizeChanged_Landroid_graphics_SurfaceTexture_IIHandler:Android.Views.TextureView/ISurfaceTextureListenerInvoker, Mono.Android, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null\n" +
@@ -34,6 +35,14 @@ public class MainActivity
 	}
 
 	private native void n_onCreate (android.os.Bundle p0);
+
+
+	public boolean onOptionsItemSelected (android.view.MenuItem p0)
+	{
+		return n_onOptionsItemSelected (p0);
+	}
+
+	private native boolean n_onOptionsItemSelected (android.view.MenuItem p0);
 
 
 	public void onSurfaceTextureAvailable (android.graphics.SurfaceTexture p0, int p1, int p2)

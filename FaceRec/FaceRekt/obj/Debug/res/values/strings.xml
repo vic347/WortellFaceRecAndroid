@@ -1,1 +1,1 @@
-<resources><string name="hello">Hello World, Click Me!</string><string name="app_name">FaceRekt</string></resources>
+<resources><string name="hello">Hello World, Click Me!</string><string name="app_name">FaceRekt</string><string name="openDrawer">Drawer Open</string><string name="closeDrawer">Drawer Closed</string></resources>

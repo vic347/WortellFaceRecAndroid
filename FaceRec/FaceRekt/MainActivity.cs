@@ -12,20 +12,25 @@ using Android.Content.PM;
 using Android.Graphics;
 using System.IO;
 using System.Threading.Tasks;
-
-
+using Android.Support.V4.Widget;
+using Android.Support.V7.App;
+using Android.Support.V7.Widget;
 
 namespace FaceRekt
 {
-	[Activity (Label = "FaceRekt", MainLauncher = true, Icon = "@mipmap/icon")]
-	public class MainActivity : Activity, TextureView.ISurfaceTextureListener
+	[Activity (Label = "FaceRekt", MainLauncher = true, Icon = "@mipmap/icon", Theme="@style/MyTheme")]
+	public class MainActivity : AppCompatActivity, TextureView.ISurfaceTextureListener
 	{
 		Android.Hardware.Camera _camera;
-		TextureView _texture;
-		Switch _switch;
-		ImageView _image;
-		Button button;
-
+		private TextureView _texture;
+		private ToggleButton _camera_switch, _picture_switch;
+		private ImageView _image;
+		private LinearLayout fake_button;
+		private DrawerLayout mDrawerLayout;
+		private MyActionBarDrawerToggle mDrawerToggle;
+		private Toolbar toolbar;
+		private LinearLayout mLeftDrawer;
+	
 		int temp = 0;
 
 		protected override void OnCreate (Bundle savedInstanceState)
@@ -34,30 +39,52 @@ namespace FaceRekt
 
 			// Set our view from the "main" layout resource
 			SetContentView (Resource.Layout.Main);
-			button = FindViewById<Button> (Resource.Id.button);
+			fake_button = FindViewById<LinearLayout> (Resource.Id.button);
+//			camera_icon = FindViewById<ImageView> (Resource.Id.image);
 
+			_picture_switch= FindViewById<ToggleButton> (Resource.Id.togglePictureStyle);
 
-			_switch = FindViewById<Switch> (Resource.Id.floop);
-
-			_switch.CheckedChange += delegate(object sender, CompoundButton.CheckedChangeEventArgs e) {
-				if(e.IsChecked == true){
+			_picture_switch.Click += (o,e)=> {
+				if(_picture_switch.Checked){
 					temp = 1;
-					button.Visibility = ViewStates.Visible;
+					_texture.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, 0, (float) 1.75);
+					fake_button.Visibility = ViewStates.Visible;
 				}
 				else{
 					temp = 0;
 					getBitmapObjectLoop();
-					button.Visibility = ViewStates.Invisible;
+					_texture.LayoutParameters = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MatchParent, 0, (float) 2.0);
+					fake_button.Visibility = ViewStates.Invisible;
 				}
 			};
+				
 
 			_texture = FindViewById<TextureView> (Resource.Id.textureView);
 			_texture.SurfaceTextureListener = this;
 
+			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer);
+			mLeftDrawer = FindViewById<LinearLayout> (Resource.Id.left_drawer);
 
-			// Get our button from the layout resource,
-			// and attach an event to il
+			toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
+			SetSupportActionBar (toolbar);
 
+			mDrawerToggle = new MyActionBarDrawerToggle (this, mDrawerLayout, 
+				Resource.String.openDrawer, Resource.String.closeDrawer);
+
+			mDrawerLayout.SetDrawerListener (mDrawerToggle);
+			SupportActionBar.SetDisplayHomeAsUpEnabled (true);
+			SupportActionBar.SetHomeButtonEnabled (true);
+			SupportActionBar.SetDisplayShowTitleEnabled (true);
+			mDrawerToggle.SyncState ();
+
+
+		}
+			
+
+		public override bool OnOptionsItemSelected(IMenuItem item)
+		{
+			mDrawerToggle.OnOptionsItemSelected(item);
+			return base.OnOptionsItemSelected(item);
 		}
 
 		public async void getBitmapObjectLoop(){
@@ -89,14 +116,16 @@ namespace FaceRekt
 			}
 		}
 
-		public static Android.Hardware.Camera getCameraInstance(){
+		public Android.Hardware.Camera getCameraInstance(){
 			Android.Hardware.Camera c = null;
+
 			try {
-				c = openFrontFacingCamera(); 
+						c = openFrontFacingCamera();
 			}
-			catch (System.Exception e){
+			catch (System.Exception x){
+				
 			}
-			return c; 
+			return c;
 		}
 
 		public bool OnSurfaceTextureDestroyed (
@@ -117,7 +146,7 @@ namespace FaceRekt
 		public void OnSurfaceTextureUpdated (Android.Graphics.SurfaceTexture surface){
 
 			_image = FindViewById<ImageView> (Resource.Id.imageView2);
-			button.Click += delegate {
+			fake_button.Click += delegate {
 				getBitmapObject();
 			
 			};
