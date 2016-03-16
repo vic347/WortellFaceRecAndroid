@@ -1405,22 +1405,25 @@ namespace FaceRekt
 			public const int abc_textfield_search_material = 2130837571;
 			
 			// aapt resource value: 0x7f020044
-			public const int color_thumb = 2130837572;
+			public const int button_styling = 2130837572;
 			
 			// aapt resource value: 0x7f020045
-			public const int gray_track = 2130837573;
+			public const int color_thumb = 2130837573;
 			
 			// aapt resource value: 0x7f020046
-			public const int monoandroidsplash = 2130837574;
-			
-			// aapt resource value: 0x7f020049
-			public const int notification_template_icon_bg = 2130837577;
+			public const int gray_track = 2130837574;
 			
 			// aapt resource value: 0x7f020047
-			public const int thumb = 2130837575;
+			public const int monoandroidsplash = 2130837575;
+			
+			// aapt resource value: 0x7f02004a
+			public const int notification_template_icon_bg = 2130837578;
 			
 			// aapt resource value: 0x7f020048
-			public const int track = 2130837576;
+			public const int thumb = 2130837576;
+			
+			// aapt resource value: 0x7f020049
+			public const int track = 2130837577;
 			
 			static Drawable()
 			{

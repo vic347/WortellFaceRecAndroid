@@ -29,7 +29,7 @@ namespace FaceRekt
 		private DrawerLayout mDrawerLayout;
 		private MyActionBarDrawerToggle mDrawerToggle;
 		private Toolbar toolbar;
-		private LinearLayout mLeftDrawer;
+		private RelativeLayout mLeftDrawer;
 	
 		int temp = 0;
 
@@ -63,7 +63,7 @@ namespace FaceRekt
 			_texture.SurfaceTextureListener = this;
 
 			mDrawerLayout = FindViewById<DrawerLayout> (Resource.Id.drawer);
-			mLeftDrawer = FindViewById<LinearLayout> (Resource.Id.left_drawer);
+			mLeftDrawer = FindViewById<RelativeLayout> (Resource.Id.left_drawer);
 
 			toolbar = FindViewById<Toolbar> (Resource.Id.toolbar);
 			SetSupportActionBar (toolbar);

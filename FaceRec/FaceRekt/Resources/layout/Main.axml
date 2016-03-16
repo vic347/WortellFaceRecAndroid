@@ -44,7 +44,7 @@
             </LinearLayout>
         </LinearLayout>
     <!-- Drawer Layout -->
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/left_drawer"
             android:layout_width="320dp"
             android:layout_height="match_parent"
@@ -53,8 +53,7 @@
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
-            android:orientation="vertical"
-            android:background="#FFFFFF">
+            android:background="#A1BAA0">
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
@@ -62,23 +61,31 @@
                 android:background="#000000"
                 android:layout_gravity="center_horizontal" />
             <ToggleButton
+                android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/togglePictureStyle"
                 android:checked="true"
                 android:textOff="Single Picture"
                 android:textOn="Loop"
-                android:background="#219653"
-                android:switchMinWidth="56dp" />
+                android:background="@drawable/button_styling"
+                android:switchMinWidth="56dp"
+                android:layout_below="@+id/imageView2"
+                android:layout_marginTop="5dip" />
             <ToggleButton
+                android:textColor="#FFFFFF"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dip"
                 android:id="@+id/toggleCamera"
                 android:checked="true"
                 android:textOff="Front Camera"
                 android:textOn="Rear Camera"
-                android:background="#219653"
-                android:switchMinWidth="56dp" />
-        </LinearLayout>
+                android:background="@drawable/button_styling"
+                android:switchMinWidth="56dp"
+                android:layout_below="@+id/imageView2"
+                android:layout_toRightOf="@+id/togglePictureStyle"
+                android:layout_marginLeft="5dip" />
+        </RelativeLayout>
     </android.support.v4.widget.DrawerLayout>
 </LinearLayout>
